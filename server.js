@@ -49,7 +49,7 @@ app.get("/integration-json", (req, res) => {
             },
             "descriptions": {
                 "app_description": "Automatically capitalizes the first letter of each sentence and ensures proper capitalization of 'i'.",
-                "app_logo": "./images/raainbow.png",
+                "app_logo": "https://images.app.goo.gl/oP1zU4UTsj8sHVwH6",
                 "app_name": "Sentence Capitalizer",
                 "app_url": "https://hng12-stage3-telex-capitalizer-v1.onrender.com",
                 "background_color": "#F5F5F5"
