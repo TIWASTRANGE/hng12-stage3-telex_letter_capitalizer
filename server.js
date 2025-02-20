@@ -12,27 +12,29 @@ channel_id = "019519ca-76a3-77d7-8ff9-9b437d7771bd"
 
 app.post("/modify-message", async (req, res) => {
     try {
-        const { message, channel_id } = req.body;
+        console.log("Incoming request:", req.body); // Log all incoming data
 
-        // Check if the message was sent by the bot in the same channel (to prevent infinite loops)
-        if (channel_id) {
+        const { message, username, channel_id, event_name } = req.body;
+
+        // Ignore messages sent by the bot
+        if (username === "sentence-capitalizer" || event_name === "message_formatted") {
             console.log("Ignoring bot message to prevent looping.");
             return res.status(200).json({ status: "ignored", message: "Bot message ignored." });
         }
 
-        if (!message) {
-            return res.status(400).json({ error: "No message provided" });
+        if (!message || !channel_id) {
+            return res.status(400).json({ error: "Missing message or channel_id" });
         }
 
         const modifiedMessage = capitalizeSentences(message);
 
-        // Send modified message back to Telex
+        // Send the modified message back to the same channel
         await axios.post(TELEX_WEBHOOK_URL, {
             event_name: "message_formatted",
             message: modifiedMessage,
             status: "success",
             username: "sentence-capitalizer",
-            channel_id, // Ensure message stays in the same channel
+            channel_id // Ensure the message is in the same channel
         });
 
         res.json({
@@ -40,6 +42,7 @@ app.post("/modify-message", async (req, res) => {
             message: modifiedMessage,
             status: "success",
             username: "sentence-capitalizer",
+            channel_id
         });
     } catch (error) {
         console.error("Error modifying message:", error);
