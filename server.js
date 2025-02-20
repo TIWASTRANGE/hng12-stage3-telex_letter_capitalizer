@@ -8,10 +8,17 @@ const app = express();
 app.use(express.json());
 
 const TELEX_WEBHOOK_URL = process.env.TELEX_WEBHOOK_URL;
+channel_id = "019519ca-76a3-77d7-8ff9-9b437d7771bd"
 
 app.post("/modify-message", async (req, res) => {
     try {
-        const { message} = req.body;
+        const { message, channel_id } = req.body;
+
+        // Check if the message was sent by the bot in the same channel (to prevent infinite loops)
+        if (channel_id) {
+            console.log("Ignoring bot message to prevent looping.");
+            return res.status(200).json({ status: "ignored", message: "Bot message ignored." });
+        }
 
         if (!message) {
             return res.status(400).json({ error: "No message provided" });
@@ -25,6 +32,7 @@ app.post("/modify-message", async (req, res) => {
             message: modifiedMessage,
             status: "success",
             username: "sentence-capitalizer",
+            channel_id, // Ensure message stays in the same channel
         });
 
         res.json({
@@ -38,6 +46,7 @@ app.post("/modify-message", async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
 
 // GET route to return integration JSON
 app.get("/integration-json", (req, res) => {
