@@ -51,7 +51,7 @@ app.get("/integration-json", (req, res) => {
                 "app_description": "Automatically capitalizes the first letter of each sentence and ensures proper capitalization of 'i'.",
                 "app_logo": "https://your-app-logo-url.com/logo.png",
                 "app_name": "Sentence Capitalizer",
-                "app_url": "https://your-deployed-url.com",
+                "app_url": "https://hng12-stage3-telex-capitalizer-v1.onrender.com",
                 "background_color": "#F5F5F5"
             },
             "integration_category": "Communication & Collaboration",
@@ -96,14 +96,14 @@ app.get("/integration-json", (req, res) => {
                     "options": ["English", "French", "Spanish"]
                 }
             ],
-            "target_url": "https://your-deployed-url.com/modify-message"
+            "target_url": "https://hng12-stage3-telex-capitalizer_v1.onrender.com/modify-message"
         }
     };
 
     res.json(integrationJSON);
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
