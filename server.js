@@ -96,7 +96,7 @@ app.get("/integration-json", (req, res) => {
                     "options": ["English", "French", "Spanish"]
                 }
             ],
-            "target_url": "https://hng12-stage3-telex-capitalizer_v1.onrender.com/modify-message"
+            "target_url": "https://hng12-stage3-telex-capitalizer-v1.onrender.com/modify-message"
         }
     };
 
